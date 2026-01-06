@@ -7,6 +7,7 @@ import { View } from 'react-native';
 
 export default function Index() {
   const token = useAuthStore((state) => state.token);
+  const isTokenValid = useAuthStore((state) => state.isTokenValid);
   const { theme } = useTheme();
   const [isHydrated, setIsHydrated] = useState(useAuthStore.persist.hasHydrated());
 
@@ -30,7 +31,8 @@ export default function Index() {
     );
   }
 
-  if (token) {
+  // Check if token exists AND is valid (not expired)
+  if (token && isTokenValid()) {
     return <Redirect href="/(tabs)" />;
   }
 

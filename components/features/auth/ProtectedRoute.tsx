@@ -8,6 +8,8 @@ import { View } from 'react-native';
 export const ProtectedRoute = ({ children }: PropsWithChildren) => {
     const router = useRouter();
     const token = useAuthStore((state) => state.token);
+    const isTokenValid = useAuthStore((state) => state.isTokenValid);
+    const logout = useAuthStore((state) => state.logout);
     const { theme } = useTheme();
     const [isHydrated, setIsHydrated] = useState(useAuthStore.persist.hasHydrated());
 
@@ -26,7 +28,12 @@ export const ProtectedRoute = ({ children }: PropsWithChildren) => {
     useEffect(() => {
         if (!isHydrated) return;
 
-        if (!token) {
+        // Check if token exists and is still valid
+        if (!token || !isTokenValid()) {
+            if (token) {
+                // Token expired, clean up
+                logout();
+            }
             router.replace('/(auth)/welcome');
         }
     }, [isHydrated, token]);
@@ -41,7 +48,7 @@ export const ProtectedRoute = ({ children }: PropsWithChildren) => {
         );
     }
 
-    if (!token) {
+    if (!token || !isTokenValid()) {
         return null;
     }
 

@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { jwtUtils, secureStorage } from '../utils/secure-storage';
 
 export interface AuthUser {
   id: string;
@@ -16,19 +16,25 @@ interface AuthState {
   token: string | null;
   setAuth: (user: AuthUser, token: string) => void;
   logout: () => void;
+  isTokenValid: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       token: null,
       setAuth: (user, token) => set({ user, token }),
       logout: () => set({ user: null, token: null }),
+      isTokenValid: () => {
+        const token = get().token;
+        if (!token) return false;
+        return !jwtUtils.isExpired(token);
+      },
     }),
     {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => AsyncStorage),
+      name: 'auth-secure-storage',
+      storage: createJSONStorage(() => secureStorage),
     }
   )
 );
