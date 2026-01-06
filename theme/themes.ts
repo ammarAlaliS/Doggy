@@ -14,6 +14,7 @@ export interface AppTheme {
     card: string;
     notification: string;
     error: string;
+    success: string;
     whiteOpacity: string;
     gray900: string;
     dangerOpacity: string;
@@ -39,7 +40,8 @@ export const lightTheme: AppTheme = {
     error: tokens.colors.error,
     gray900: tokens.colors.gray900,
     whiteOpacity: tokens.colors.whiteOpacity,
-    dangerOpacity: tokens.colors.danger
+    dangerOpacity: tokens.colors.danger,
+    success: tokens.colors.success,
 
   },
   spacing: tokens.spacing,
@@ -63,7 +65,8 @@ export const darkTheme: AppTheme = {
     error: tokens.colors.error,
     gray900: tokens.colors.primary1000,
     whiteOpacity: tokens.colors.blackOpaciity,
-    dangerOpacity: tokens.colors.danger
+    dangerOpacity: tokens.colors.danger,
+    success: tokens.colors.success,
   },
   spacing: tokens.spacing,
   borderRadius: tokens.borderRadius,

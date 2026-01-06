@@ -1,54 +1,36 @@
-import { Stack, useRootNavigationState, useRouter, useSegments } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { AntigravityBackground } from '../components/ui/AntigravityBackground';
+import Toast, { BaseToast, ErrorToast, ToastConfig } from 'react-native-toast-message';
 import { useTheme } from '../hooks/useTheme';
-import { useAuthStore } from '../stores/auth.store';
 
 export default function RootLayout() {
-  const { theme, isDark } = useTheme();
-  const { token } = useAuthStore();
-  const segments = useSegments();
-  const router = useRouter();
-  const navigationState = useRootNavigationState();
-  const [isHydrated, setIsHydrated] = useState(false);
+  const { isDark, theme } = useTheme();
 
-  // Robust hydration check
-  useEffect(() => {
-    const checkHydration = async () => {
-      // Wait for Zustand persistence to hydrate
-      await useAuthStore.persist.rehydrate();
-      setIsHydrated(true);
-    };
-
-    checkHydration();
-  }, []);
-
-  useEffect(() => {
-    // Wait until hydration is finished and navigation is ready
-    if (!isHydrated || !navigationState?.key) return;
-
-    const inAuthGroup = segments[0] === '(auth)';
-
-    const timer = setTimeout(() => {
-      if (!token && !inAuthGroup) {
-        router.replace('/(auth)/welcome');
-      } else if (token && inAuthGroup) {
-        router.replace('/(tabs)');
-      }
-    }, 1);
-
-    return () => clearTimeout(timer);
-  }, [token, segments, isHydrated, navigationState?.key]);
-
-  if (!isHydrated) {
-    return (
-      <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-        <AntigravityBackground colors={theme.dark ? ["#040415ff", "#0606dfff"] : ["#E6F3FF", "#51a0e6ff"]} />
-      </View>
-    );
-  }
+  const toastConfig: ToastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{
+          borderLeftColor: theme.colors.success || '#10b981',
+          backgroundColor: theme.colors.card,
+        }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{ color: theme.colors.text, fontWeight: '600' }}
+        text2Style={{ color: theme.colors.textSecondary }}
+      />
+    ),
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        style={{
+          borderLeftColor: theme.colors.error || '#ef4444',
+          backgroundColor: theme.colors.card,
+        }}
+        text1Style={{ color: theme.colors.text, fontWeight: '600' }}
+        text2Style={{ color: theme.colors.textSecondary }}
+      />
+    ),
+  };
 
   return (
     <>
@@ -57,8 +39,8 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
+      <Toast config={toastConfig} />
     </>
   );
 }
-
 

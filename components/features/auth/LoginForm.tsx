@@ -56,9 +56,12 @@ export default function LoginForm() {
 
                     {/* Botón */}
                     <TouchableOpacity
-                        onPress={handleSubmit}
-                        disabled={!isValid || isLoading}
-                        style={styles.components.btn}
+                        onPress={() => {
+                            console.log('Button pressed, isValid:', isValid, 'isLoading:', isLoading, 'values:', values, 'errors:', errors);
+                            handleSubmit();
+                        }}
+                        disabled={isLoading}
+                        style={[styles.components.btn, (!isValid || isLoading) && { opacity: 0.6 }]}
                     >
                         {isLoading ? (
                             <ActivityIndicator color={theme.colors.primaryForeground} />
@@ -66,6 +69,7 @@ export default function LoginForm() {
                             <Text style={styles.components.btnTxt}>Iniciar Sesión</Text>
                         )}
                     </TouchableOpacity>
+
                 </View>
             )}
         </Formik>

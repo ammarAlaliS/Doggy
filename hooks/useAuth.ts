@@ -11,17 +11,49 @@ export const useAuth = () => {
   const login = async (values: { email: string; password: string }, { resetForm }: any) => {
     try {
       setIsLoading(true);
+      console.log('Starting login request...');
       
-      // MOCK LOGIN - Replace with actual API call
-      // const response = await fetch('https://api.tuapp.com/login', ...);
-      // if (!response.ok) throw new Error('Credenciales incorrectas');
-      // const data = await response.json();
+      // Timeout controller
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
       
-      // Simulation of successful login
-      const mockUser = { id: '1', email: values.email, name: 'User Test' };
-      const mockToken = 'mock-jwt-token';
+      const response = await fetch('https://obbaramarket-backend.onrender.com/api/ObbaraMarket/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
       
-      setAuth(mockUser, mockToken);
+      const rawText = await response.text();
+      console.log('Raw Response Status:', response.status);
+      console.log('Raw Response Body:', rawText);
+      
+      // Try to parse as JSON
+      let data;
+      try {
+        data = JSON.parse(rawText);
+      } catch {
+        throw new Error(rawText || `Error del servidor (${response.status})`);
+      }
+      
+      console.log('Login Response:', data);
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Credenciales incorrectas');
+      }
+
+      
+      const user = { id: data.id || data.user?.id, email: data.email || data.user?.email, name: data.name || data.user?.name };
+      const token = data.token || data.accessToken;
+      
+      setAuth(user, token);
 
       Toast.show({
         type: 'success',
@@ -32,15 +64,17 @@ export const useAuth = () => {
       router.replace('/(tabs)');
 
     } catch (error: any) {
+      console.log('Login Error:', error.message);
       Toast.show({
         type: 'error',
         text1: 'Error',
-        text2: error.message,
+        text2: error.name === 'AbortError' ? 'Tiempo de espera agotado' : error.message,
       });
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const logout = () => {
     useAuthStore.getState().logout();
