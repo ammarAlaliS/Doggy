@@ -4,7 +4,7 @@ import { AntigravityBackground } from '@/components/ui/AntigravityBackground';
 import SingInOption from '@/components/ui/SingInOption';
 import { useFontsLoader } from '@/utils/useFontsLoader';
 import { useMemo } from 'react';
-import { Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../hooks/useTheme';
 import { createAppStyles } from '../../theme/styles';
@@ -29,41 +29,61 @@ export default function LoginScreen() {
         blurIntensity={100}
         shapeColor={theme.colors.background}
       />
-      <SafeAreaView style={{
-        flex: 1,
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.spacing.s,
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1, width: '100%' }}
+      >
+        <ScrollView
+          style={{ width: '100%' }}
+          contentContainerStyle={{
+            flexGrow: 1,
 
-      }}>
+          }}
+          showsVerticalScrollIndicator={false}
+        >
+          <SafeAreaView style={{
+            flex: 1,
+            width: '100%',
+            paddingHorizontal: theme.spacing.m,
+            gap: theme.spacing.s,
+          }}>
 
-        <Text style={[styles.typography.h3,]}>Ingresar</Text>
-        <Text style={[styles.typography.label,]}>Te damos la bienvenida nuevamente</Text>
-        <LoginForm />
-        <SingInOption />
-        <View style={{
-          gap: theme.spacing.m,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          flex: 1
-        }}>
-          <ButtonAuth
-            icon="google"
-            label="Google"
-            onPress={() => console.log('Google login')}
-          />
-          <ButtonAuth
-            icon="apple"
-            label="Apple"
-            onPress={() => console.log('Apple login')}
-          />
-        </View>
-        <View>
-          <Text style={[styles.typography.h1, { fontFamily: 'ShadowsIntoLight_400Regular', textAlign: 'center' }]}>Doggy</Text>
-        </View>
-      </SafeAreaView>
+            <Text style={[styles.typography.h3,]}>Ingresar</Text>
+            <Text style={[styles.typography.label,]}>Te damos la bienvenida nuevamente</Text>
+
+            <LoginForm />
+
+            <SingInOption />
+
+            <View style={{
+              gap: theme.spacing.m,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '100%',
+            }}>
+              <View style={{ flex: 1 }}>
+                <ButtonAuth
+                  icon="google"
+                  label="Google"
+                  onPress={() => console.log('Google login')}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <ButtonAuth
+                  icon="apple"
+                  label="Apple"
+                  onPress={() => console.log('Apple login')}
+                />
+              </View>
+            </View>
+
+            <View style={{ marginTop: 'auto', paddingTop: theme.spacing.xl }}>
+              <Text style={[styles.typography.h1, { fontFamily: 'ShadowsIntoLight_400Regular', textAlign: 'center' }]}>Doggy</Text>
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
+

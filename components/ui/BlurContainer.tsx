@@ -11,11 +11,24 @@ const BlurContainer = ({ children, style }: BlurContainerProps) => {
     const { theme } = useTheme();
 
     return (
-        <View style={[styles.outerContainer, style, {
-            borderColor: theme.colors.border,
-            borderRadius: theme.spacing.m,
-        }]}>
-            <BlurView intensity={60} tint={theme.dark ? 'dark' : 'light'} style={styles.content}>
+        <View style={[
+            styles.outerContainer,
+            {
+                borderColor: theme.colors.border,
+                borderRadius: theme.spacing.m,
+                width: '100%',
+            },
+            style // Apply external style here too for positioning if needed
+        ]}>
+            <BlurView
+                intensity={60}
+                tint={theme.dark ? 'dark' : 'light'}
+                style={[
+                    styles.content,
+                    { backgroundColor: theme.colors.whiteOpacity },
+                    style // Merge style here so flexDirection etc. works on children
+                ]}
+            >
                 {children}
             </BlurView>
         </View>
@@ -29,9 +42,8 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: 16,
-        gap: 16,
+        width: '100%',
     }
 });
 
 export default BlurContainer;
-

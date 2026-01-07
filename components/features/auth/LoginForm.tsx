@@ -6,7 +6,7 @@ import { loginSchema } from '@/utils/login.schema';
 import Checkbox from 'expo-checkbox';
 import { Formik } from 'formik';
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LoginForm() {
     const { login, getRememberedEmail, isLoading } = useAuth();
@@ -89,6 +89,12 @@ export default function LoginForm() {
                                     value={remember}
                                     onValueChange={setRemember}
                                     color={remember ? '#7C3AED' : undefined}
+                                    style={{
+                                        borderColor: theme.colors.border,
+                                        backgroundColor: theme.colors.whiteOpacity,
+                                        width: theme.spacing.l,
+                                        height: theme.spacing.l,
+                                    }}
                                 />
                                 <Text style={styles.typography.h5}>Recordarme</Text>
                             </View>
@@ -124,7 +130,7 @@ export default function LoginForm() {
                                             : ["#0d0d0dff", "#010120ff", "#040415ff", "#010120ff", "#040415ff"]
                                     }
                                     blurIntensity={40}
-                                    containerWidth={340}
+                                    containerWidth={Dimensions.get('window').width}
                                     containerHeight={56}
                                 />
                                 {isLoading ? (

@@ -2,7 +2,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { createAppStyles } from '@/theme/styles';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useMemo } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import BlurContainer from '../../ui/BlurContainer';
 
 interface ButtonAuthProps {
@@ -19,6 +19,7 @@ const ButtonAuth = ({ icon, label, onPress }: ButtonAuthProps) => {
         <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.7}
+            style={{ width: '100%' }}
         >
             <BlurContainer
                 style={{
@@ -28,26 +29,18 @@ const ButtonAuth = ({ icon, label, onPress }: ButtonAuthProps) => {
                     gap: theme.spacing.m,
                 }}
             >
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: theme.spacing.s,
-                    }}
-                >
-                    {icon && (
-                        <FontAwesome
-                            name={icon}
-                            size={24}
-                            color={theme.colors.text}
-                        />
-                    )}
-                    <Text style={[styles.typography.h5, { color: theme.colors.text }]}>
-                        {label}
-                    </Text>
-                </View>
+                {icon && (
+                    <FontAwesome
+                        name={icon}
+                        size={24}
+                        color={theme.colors.text}
+                    />
+                )}
+                <Text style={[styles.typography.h5, { color: theme.colors.text }]}>
+                    {label}
+                </Text>
             </BlurContainer>
+
         </TouchableOpacity>
     );
 };

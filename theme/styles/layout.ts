@@ -7,7 +7,7 @@ export const createLayoutStyles = (theme: AppTheme) => StyleSheet.create({
     backgroundColor: theme.colors.whiteOpacity,
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.spacing.m,
+    paddingVertical: theme.spacing.m,
   },
   containerBlur: {
     flex: 1,
@@ -24,7 +24,7 @@ export const createLayoutStyles = (theme: AppTheme) => StyleSheet.create({
     justifyContent: 'center',
     padding: theme.spacing.m,
     borderRadius: theme.borderRadius.l,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: theme.colors.border,
     width: '100%',
     height: '100%',
