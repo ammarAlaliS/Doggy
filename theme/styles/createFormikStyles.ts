@@ -2,14 +2,14 @@ import { StyleSheet } from "react-native";
 import { AppTheme } from "../themes";
 
 export const createFormikStyles = (theme: AppTheme) => StyleSheet.create({
-     container: {
- 
+    container: {
     },
-
     input: {
         display: 'flex',
         flexDirection: 'column',
         gap: theme.spacing.s,
+        position: 'relative',
+        marginBottom: theme.spacing.s,
     },
     inputError: {
         width: '100%',
@@ -24,6 +24,7 @@ export const createFormikStyles = (theme: AppTheme) => StyleSheet.create({
         color: theme.colors.text,
         paddingLeft: theme.spacing.s,
         paddingRight: theme.spacing.m,
+        marginTop: 4,
     },
     username: {
         width: '100%',
@@ -40,16 +41,17 @@ export const createFormikStyles = (theme: AppTheme) => StyleSheet.create({
         fontSize: theme.typography.fontSizes.m,
         fontFamily: theme.typography.fontWeights.regular,
         color: theme.colors.text,
+        marginTop: 4,
     },
     text: {
         fontFamily: 'PlusJakartaSans-Regular',
-        color: 'blue',
-        fontSize: 16
+        fontSize: 16,
+        color: theme.colors.text,
     },
     text_password: {
         fontFamily: 'PlusJakartaSans-Regular',
-        color: 'blue',
-        fontSize: 16
+        fontSize: 16,
+        color: theme.colors.text,
     },
     buttom: {
         color: '#FFF'
@@ -57,5 +59,11 @@ export const createFormikStyles = (theme: AppTheme) => StyleSheet.create({
     error: {
         color: 'red',
         fontSize: 12,
+        position: 'absolute',
+        top: -10,
+        right: theme.spacing.s,
+        backgroundColor: theme.colors.background,
+        padding: theme.spacing.s,
+        borderRadius: theme.borderRadius.m,
     }
 });

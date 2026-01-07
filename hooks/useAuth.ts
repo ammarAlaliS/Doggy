@@ -3,19 +3,20 @@ import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { API_CONFIG, getApiUrl } from '../config/api.config';
 import { AuthUser, useAuthStore } from '../stores/auth.store';
+import { secureStorage } from '../utils/secure-storage';
 
 export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
 
-  const login = async (values: { email: string; password: string }, { resetForm }: any) => {
+  const login = async (values: { email: string; password: string }, { resetForm, setSubmitting }: any, remember: boolean) => {
     try {
       setIsLoading(true);
-      
+
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT_MS);
-      
+
       const response = await fetch(getApiUrl('LOGIN'), {
         method: 'POST',
         headers: {
@@ -29,9 +30,9 @@ export const useAuth = () => {
       });
 
       clearTimeout(timeoutId);
-      
+
       const rawText = await response.text();
-      
+
       let data;
       try {
         data = JSON.parse(rawText);
@@ -51,14 +52,15 @@ export const useAuth = () => {
         profileImgUrl: data.profile_img_url,
         isActive: data.isActive,
       };
-      
+
       setAuth(user, data.token);
 
-      Toast.show({
-        type: 'success',
-        text1: 'Inicio de sesión exitoso',
-        text2: `Bienvenido, ${user.firstName}`,
-      });
+      // Handle Remember Me
+      if (remember) {
+        await secureStorage.setItem('remembered-email', values.email);
+      } else {
+        await secureStorage.removeItem('remembered-email');
+      }
 
       resetForm();
       router.replace('/(tabs)');
@@ -66,8 +68,7 @@ export const useAuth = () => {
     } catch (error: any) {
       Toast.show({
         type: 'error',
-        text1: 'Error',
-        text2: error.name === 'AbortError' ? 'Tiempo de espera agotado' : error.message,
+        text1: error.name === 'AbortError' ? 'Tiempo de espera agotado' : error.message,
       });
     } finally {
       setIsLoading(false);
@@ -79,5 +80,9 @@ export const useAuth = () => {
     router.replace('/(auth)/welcome');
   };
 
-  return { login, logout, isLoading };
+  const getRememberedEmail = async () => {
+    return await secureStorage.getItem('remembered-email');
+  };
+
+  return { login, logout, getRememberedEmail, isLoading };
 };

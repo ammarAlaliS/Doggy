@@ -5,12 +5,12 @@ export const tokens = {
     whiteOpacity: '#ffffff2c',
     black: '#000000',
     blackOpaciity: '#00000012',
-    
+
 
     // Grayscale
     gray50: '#F9FAFB',
-    gray100: '#F3F4F6',
-    gray200: '#e5e7eb14',
+    gray100: '#d6e3ffff',
+    gray200: '#7272722b',
     gray300: '#D1D5DB',
     gray400: '#9CA3AF',
     gray500: '#6B7280',
@@ -30,8 +30,8 @@ export const tokens = {
 
     // Semantic Status
     success: '#10B981',
-    error: '#EF4444',
-    danger: '#ef444418',
+    error: '#ef44441b',
+    danger: '#ef44440e',
     warning: '#F59E0B',
     info: '#3B82F6',
   },

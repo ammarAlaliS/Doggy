@@ -11,23 +11,39 @@ export default function RootLayout() {
       <BaseToast
         {...props}
         style={{
-          borderLeftColor: theme.colors.success || '#10b981',
+          borderLeftWidth: 0,
           backgroundColor: theme.colors.card,
         }}
         contentContainerStyle={{ paddingHorizontal: 15 }}
-        text1Style={{ color: theme.colors.text, fontWeight: '600' }}
-        text2Style={{ color: theme.colors.textSecondary }}
+        text1Style={{
+          color: theme.colors.text,
+          fontWeight: '600',
+          fontSize: theme.typography.fontSizes.m,
+        }}
+        text2Style={{
+          color: theme.colors.textSecondary,
+          fontWeight: '600',
+          fontSize: theme.typography.fontSizes.m,
+        }}
       />
     ),
     error: (props) => (
       <ErrorToast
         {...props}
         style={{
-          borderLeftColor: theme.colors.error || '#ef4444',
+          borderLeftWidth: 0,
           backgroundColor: theme.colors.card,
         }}
-        text1Style={{ color: theme.colors.text, fontWeight: '600' }}
-        text2Style={{ color: theme.colors.textSecondary }}
+        text1Style={{
+          color: theme.colors.text,
+          fontWeight: '600',
+          fontSize: theme.typography.fontSizes.m,
+        }}
+        text2Style={{
+          color: theme.colors.textSecondary,
+          fontWeight: '600',
+          fontSize: theme.typography.fontSizes.m,
+        }}
       />
     ),
   };

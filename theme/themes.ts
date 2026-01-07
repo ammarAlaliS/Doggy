@@ -54,7 +54,7 @@ export const darkTheme: AppTheme = {
   colors: {
     background: tokens.colors.gray900,
     backgroundSecondary: tokens.colors.gray800,
-    text: tokens.colors.gray100,
+    text: tokens.colors.white,
     textSecondary: tokens.colors.gray400,
     textInverse: tokens.colors.gray900,
     primary: tokens.colors.primary500,

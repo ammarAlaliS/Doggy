@@ -15,11 +15,13 @@ import Animated, {
 const { width, height } = Dimensions.get("window");
 
 type AntigravityBackgroundProps = {
-    colors: string[];
-    secondaryColors?: string[];
+    colors: readonly [string, string, ...string[]];
+    secondaryColors?: readonly [string, string, ...string[]];
     blurIntensity?: number;
     shapeColor?: string; // Unused now, but kept for props compatibility
     heightRatio?: number; // Unused
+    containerWidth?: number;
+    containerHeight?: number;
 };
 
 // Internal Blob Component
@@ -103,8 +105,10 @@ const AnimatedBlob = ({ color, delay = 0, size = width * 1.5 }: { color: string;
 
 export const AntigravityBackground = ({
     colors,
-    secondaryColors = ["rgba(255,255,255,0.4)", "rgba(12, 10, 10, 0)"],
+    secondaryColors = ["rgba(255,255,255,0.4)", "rgba(12, 10, 10, 0)"] as const,
     blurIntensity = 60,
+    containerWidth = width,
+    containerHeight = height,
 }: AntigravityBackgroundProps) => {
 
     const blobColors = colors.slice(0, 5);
@@ -125,12 +129,12 @@ export const AntigravityBackground = ({
             <View style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }]}>
                 {blobColors.map((color, index) => {
                     // Spread across full screen
-                    const topPos = Math.random() * height * 0.8 - (height * 0.2); // Spread VERTICALLY
-                    const leftPos = Math.random() * width * 0.8 - (width * 0.2); // Spread HORIZONTALLY
+                    const topPos = Math.random() * containerHeight * 0.8 - (containerHeight * 0.2);
+                    const leftPos = Math.random() * containerWidth * 0.8 - (containerWidth * 0.2);
 
                     return (
                         <View key={index} style={{ position: 'absolute', top: topPos, left: leftPos }}>
-                            <AnimatedBlob color={color} delay={index * 1000} size={width * 1.2} />
+                            <AnimatedBlob color={color} delay={index * 1000} size={containerWidth * 1.5} />
                         </View>
                     )
                 })}

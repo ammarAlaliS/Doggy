@@ -32,10 +32,5 @@ export const createComponentStyles = (theme: AppTheme) => StyleSheet.create({
     backgroundColor: theme.colors.card,
     padding: theme.spacing.l,
     borderRadius: theme.borderRadius.l,
-    shadowColor: theme.colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
   }
 });

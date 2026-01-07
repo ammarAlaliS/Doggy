@@ -4,7 +4,7 @@ import { AppTheme } from "../themes";
 export const createLayoutStyles = (theme: AppTheme) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.whiteOpacity,
     justifyContent: "center",
     alignItems: "center",
     padding: theme.spacing.m,

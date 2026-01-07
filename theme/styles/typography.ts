@@ -2,19 +2,31 @@ import { StyleSheet } from "react-native";
 import { AppTheme } from "../themes";
 
 export const createTypographyStyles = (theme: AppTheme) => StyleSheet.create({
-  h3: {
-    fontSize: theme.typography.fontSizes.xxl,
+
+  h1: {
+    fontSize: theme.typography.fontSizes.xxxxl,
     fontWeight: theme.typography.fontWeights.bold as any,
     color: theme.colors.text,
   },
+
   h2: {
     fontSize: theme.typography.fontSizes.xxxl,
     fontWeight: theme.typography.fontWeights.bold as any,
     color: theme.colors.text,
   },
-  h1: {
-    fontSize: theme.typography.fontSizes.xxxxl,
+  h3: {
+    fontSize: theme.typography.fontSizes.xxl,
     fontWeight: theme.typography.fontWeights.bold as any,
+    color: theme.colors.text,
+  },
+  h4: {
+    fontSize: theme.typography.fontSizes.l,
+    fontWeight: theme.typography.fontWeights.regular as any,
+    color: theme.colors.text,
+  },
+  h5: {
+    fontSize: theme.typography.fontSizes.m,
+    fontWeight: theme.typography.fontWeights.medium as any,
     color: theme.colors.text,
   },
   sub: {
@@ -34,7 +46,7 @@ export const createTypographyStyles = (theme: AppTheme) => StyleSheet.create({
     fontSize: theme.typography.fontSizes.s,
   },
   label: {
-    fontSize: theme.typography.fontSizes.m,
+    fontSize: theme.typography.fontSizes.l,
     color: theme.colors.text,
     fontWeight: theme.typography.fontWeights.medium as any,
   }
